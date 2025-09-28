@@ -11,7 +11,10 @@ import phonenumbers
 def new_contact(
     contact_list, contact_name, contact_phone, contact_email, contact_favorite=False
 ):
-    """This function should be used to add a new contact. Through this one the dict will be created."""
+    """
+    This function should be used to add a new contact.
+    Through this one the dict will be created.
+    """
     contact = {
         "name": contact_name.title(),
         "phone": contact_phone,
