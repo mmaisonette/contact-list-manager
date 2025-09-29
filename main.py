@@ -1,7 +1,9 @@
 """
-This program is a simple 'Contact List' app!
-The goal is adding all functions into this main file and the remaining
-items on different ones on this first moment.
+This program is a 'Contact List' app running only on CLI!
+We have available a clear description of each function on this
+code through the use of docstrings.
+
+Any inquirement can be send to marciomaisonette@gmail.com.
 """
 
 import phonenumbers
@@ -12,8 +14,15 @@ def new_contact(
     contact_list, contact_name, contact_phone, contact_email, contact_favorite=False
 ):
     """
-    This function should be used to add a new contact.
-    Through this one the dict will be created.
+    The goal of this function is to add a new contact.
+
+    The parameters in use in this function are to add:
+    - name
+    - phone
+    - email
+    - set to favorite or not
+
+    Through this function the dict will be created.
     """
     contact = {
         "name": contact_name.title(),
@@ -29,7 +38,13 @@ def new_contact(
 
 
 def is_valid_phone(number, region="BR"):
-    """Phone validation function"""
+    """
+    This functional was create to perform a validation of the
+    phone provided. The goal is guarantee that the phone is
+    right and consice with the region.
+
+    This funcition is using the module 'phonenumber'.
+    """
     try:
         parsed = phonenumbers.parse(number, region)
         return phonenumbers.is_valid_number(parsed)
@@ -38,7 +53,11 @@ def is_valid_phone(number, region="BR"):
 
 
 def view_contacts(contact_list):
-    """This function should be used to list the contact list. That will show all contacts in a table."""
+    """
+    This function should be used to list the contact list.
+
+    That will show all contacts in a table.
+    """
     print("\nContact list details: ")
     for index, contact in enumerate(contact_list, start=1):
         name = contact.get("name", "")
