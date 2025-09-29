@@ -6,6 +6,7 @@ code through the use of docstrings.
 Any inquirement can be send to marciomaisonette@gmail.com.
 """
 
+import re
 import phonenumbers
 
 
@@ -43,12 +44,25 @@ def is_valid_phone(number, region="BR"):
     phone provided. The goal is guarantee that the phone is
     right and consice with the region.
 
-    This funcition is using the module 'phonenumber'.
+    This funcition is using the third party module 'phonenumber'.
     """
     try:
         parsed = phonenumbers.parse(number, region)
         return phonenumbers.is_valid_number(parsed)
     except phonenumbers.NumberParseException:
+        return False
+
+
+def is_valid_email(email):
+    """
+    This function is responsible for validate the email
+    informed by the user.
+    """
+    # A common regex pattern for email validation
+    regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,7}$"
+    if re.fullmatch(regex, email):
+        return True
+    else:
         return False
 
 
@@ -186,8 +200,23 @@ while True:
                 )
                 if retry == "q":
                     break
+        # Running an email address validation
+        while True:
+            contact_email = input("Inform a valid email address: ")
+            if is_valid_email(contact_email):
+                break
+            else:
+                retry = (
+                    input(
+                        "\n⚠️ Invalid email address. Press Enter to try again or 'q' to continue without adding an email: "
+                    )
+                    .strip()
+                    .lower()
+                )
+            if retry == "q":
+                contact_email = ""
+                break
 
-        contact_email = input("Inform the email address: ")
         contact_favorite = input("Is it favorite? True/False: ")
         new_contact(
             contact_list, contact_name, contact_phone, contact_email, contact_favorite
