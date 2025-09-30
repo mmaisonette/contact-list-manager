@@ -8,6 +8,7 @@ Any inquirement can be send to marciomaisonette@gmail.com.
 
 import re
 import phonenumbers
+from tabulate import tabulate
 
 
 # Functions
@@ -26,10 +27,10 @@ def new_contact(
     Through this function the dict will be created.
     """
     contact = {
-        "name": contact_name.title(),
-        "phone": contact_phone,
-        "email": contact_email,
-        "favorite": contact_favorite,
+        "Name": contact_name.title(),
+        "Phone Number": contact_phone,
+        "Email": contact_email,
+        "Favorite [True/False]": contact_favorite,
     }
     contact_list.append(contact)
     print(
@@ -68,19 +69,22 @@ def is_valid_email(email):
 
 def view_contacts(contact_list):
     """
-    This function should be used to list the contact list.
+    This function should be used to show the contact list.
 
-    That will show all contacts in a table.
+    That will show all contacts in a table formated by the tabulate().
+    Now includes an index column for easy reference.
     """
-    print("\nContact list details: ")
-    for index, contact in enumerate(contact_list, start=1):
-        name = contact.get("name", "")
-        phone = contact.get("phone", "")
-        email = contact.get("email", "")
-        favorite = contact.get("favorite", "")
-        print(
-            f"{index}. Name={name}, Phone={phone}, Email={email}, Favorite={favorite}"
-        )
+    if not contact_list:
+        print("\n⚠️ No contacts found!")
+        return
+
+    table = tabulate(
+        contact_list,
+        headers="keys",
+        tablefmt="fancy_grid",
+        showindex=range(1, len(contact_list) + 1),
+    )
+    print(table)
     return
 
 
@@ -117,10 +121,12 @@ def edit_contact(contact_list):
     )
 
     # Prompt with current values; keep old if user hits Enter
-    new_name = input(f"Name [{contact.get('name','')}]: ").strip()
-    new_phone = input(f"Phone [{contact.get('phone','')}]: ").strip()
-    new_email = input(f"Email [{contact.get('email','')}]: ").strip()
-    new_favorite = input(f"Favorite? [{contact.get('favorite','')}]: ").strip()
+    new_name = input(f"Name [{contact.get('Name','')}]: ").strip()
+    new_phone = input(f"Phone [{contact.get('Phone Number','')}]: ").strip()
+    new_email = input(f"Email [{contact.get('Email','')}]: ").strip()
+    new_favorite = input(
+        f"Favorite? [{contact.get('Favorite [True/False]','')}]: "
+    ).strip()
 
     if new_name:
         contact["name"] = new_name
@@ -171,6 +177,7 @@ while True:
 
     # Calling functions
     selected_option = input("\nPlease, choose an option: ")
+    print()  # Adds a blank line after the input prompt
 
     if selected_option == "1":
         # Running the name input and validation
