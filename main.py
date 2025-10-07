@@ -30,7 +30,7 @@ def new_contact(
         "Name": contact_name.title(),
         "Phone Number": contact_phone,
         "Email": contact_email,
-        "Favorite [True/False]": contact_favorite,
+        "Favorite [Yes/No]": contact_favorite.title(),
     }
     contact_list.append(contact)
     print(
@@ -88,6 +88,30 @@ def view_contacts(contact_list):
     return
 
 
+def list_favorites(contact_list):
+    """
+    This function displays only the contacts marked as favorite.
+    """
+    favorites = [
+        contact
+        for contact in contact_list
+        if str(contact.get("Favorite [Yes/No]", "")).lower() in ("yes")
+    ]
+    if not favorites:
+        print("\n⚠️ No favorite contacts found!")
+        return
+    print("\n⭐ Favorite Contacts:")
+    print()
+    table = tabulate(
+        favorites,
+        headers="keys",
+        tablefmt="fancy_grid",
+        showindex=range(1, len(favorites) + 1),
+    )
+    print(table)
+    return
+
+
 def edit_contact(contact_list):
     """Let the user choose a contact by number and edit its fields."""
     if not contact_list:
@@ -124,9 +148,7 @@ def edit_contact(contact_list):
     new_name = input(f"Name [{contact.get('Name','')}]: ").strip()
     new_phone = input(f"Phone [{contact.get('Phone Number','')}]: ").strip()
     new_email = input(f"Email [{contact.get('Email','')}]: ").strip()
-    new_favorite = input(
-        f"Favorite? [{contact.get('Favorite [True/False]','')}]: "
-    ).strip()
+    new_favorite = input(f"Favorite? [{contact.get('Favorite [Yes/No]','')}]: ").strip()
 
     if new_name:
         contact["name"] = new_name
@@ -162,7 +184,7 @@ def delete_contact(contact_list):
         print("\n⚠️ Invalid contact number.")
 
 
-# An empty list to start
+# An empty list to start. That is a list of dictionaries.
 contact_list = []
 
 # Menu
@@ -171,9 +193,10 @@ while True:
     print("\nThese are the options available:\n")
     print("1. Add a new contact")
     print("2. View the contact list")
-    print("3. Edit a contact")
-    print("4. Delete a contact")
-    print("5. Exit")
+    print("3. List the favorite contacts")
+    print("4. Edit a contact")
+    print("5. Delete a contact")
+    print("6. Exit")
 
     # Calling functions
     selected_option = input("\nPlease, choose an option: ")
@@ -224,16 +247,26 @@ while True:
                 contact_email = ""
                 break
 
-        contact_favorite = input("Is it favorite? True/False: ")
+        # Checking if the favorite is set or not
+        while True:
+            contact_favorite = input("Is it favorite? Yes/No: ")
+            if len(contact_favorite) == 3:
+                break
+            else:
+                contact_favorite = "No"
+                break
+
         new_contact(
             contact_list, contact_name, contact_phone, contact_email, contact_favorite
         )
     elif selected_option == "2":
         view_contacts(contact_list)
     elif selected_option == "3":
-        edit_contact(contact_list)
+        list_favorites(contact_list)
     elif selected_option == "4":
-        delete_contact(contact_list)
+        edit_contact(contact_list)
     elif selected_option == "5":
+        delete_contact(contact_list)
+    elif selected_option == "6":
         print("\nThe program is finishing!")
         break
