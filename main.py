@@ -59,7 +59,7 @@ def is_valid_email(email):
     This function is responsible for validate the email
     informed by the user.
     """
-    # A common regex pattern for email validation
+    # A common regex pattern for email validation.
     regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,7}$"
     if re.fullmatch(regex, email):
         return True
@@ -118,10 +118,10 @@ def edit_contact(CONTACT_LIST):
         print("\nThere are no contacts to edit yet.")
         return
 
-    # Show current contact list
+    # Show current contact list.
     view_contacts(CONTACT_LIST)
 
-    # Ask which contact to edit
+    # Ask which contact to edit.
     while True:
         choice = input(
             "\nEnter the number of the contact to edit (or 'b' to go back): "
@@ -133,6 +133,7 @@ def edit_contact(CONTACT_LIST):
             print("Please enter a valid number.")
             continue
 
+        # Adjusting the index to the right position.
         index = int(choice) - 1
         if 0 <= index < len(CONTACT_LIST):
             break
@@ -144,7 +145,7 @@ def edit_contact(CONTACT_LIST):
         f"\nEditing contact #{index+1} — current values in [brackets]. Press Enter to keep them.\n"
     )
 
-    # Prompt with current values; keep old if user hits Enter
+    # Prompt with current values; keep old if user hits Enter.
     new_name = input(f"Name [{contact.get('Name','')}]: ").strip()
     new_phone = input(f"Phone [{contact.get('Phone Number','')}]: ").strip()
     new_email = input(f"Email [{contact.get('Email','')}]: ").strip()
@@ -160,7 +161,7 @@ def edit_contact(CONTACT_LIST):
         contact["favorite"] = new_favorite
 
     print("\n✅ Contact updated successfully!")
-    # Just return — control goes back to the main loop (main menu)
+    # Just return — control goes back to the main loop (main menu).
     return
 
 
@@ -168,7 +169,7 @@ def delete_contact(CONTACT_LIST):
     """This function should be used to delete a contact from the contact list."""
     print("\nWhich contact would you like to remove?")
 
-    # Show current contact list
+    # Show current contact list.
     view_contacts(CONTACT_LIST)
 
     choice = input("\nPlease, type the contact number: ").strip()
@@ -176,6 +177,7 @@ def delete_contact(CONTACT_LIST):
         print("\n⚠️ Invalid contact number.")
         return
 
+    # Adjusting the index to the right position.
     index = int(choice) - 1
     if 0 <= index < len(CONTACT_LIST):
         removed = CONTACT_LIST.pop(index)
@@ -198,12 +200,12 @@ while True:
     print("5. Delete a contact")
     print("6. Exit")
 
-    # Calling functions
+    # Calling functions.
     selected_option = input("\nPlease, choose an option: ")
     print()
 
     if selected_option == "1":
-        # Running the name input and validation
+        # Running the name input and validation.
         while True:
             CONTACT_NAME = input(
                 "Inform the name and last name (the last one or most used): "
@@ -214,7 +216,7 @@ while True:
             else:
                 retry = print("\n⚠️ Please enter both a first name and a last name!")
 
-        # Running the phone number input and validation
+        # Running the phone number input and validation.
         while True:
             CONTACT_PHONE = input(
                 "Inform the phone number with the prefix (e.g. 51, 54, etc.): "
@@ -232,7 +234,7 @@ while True:
                 if retry == "q":
                     break
 
-        # Running an email address validation
+        # Running an email address validation.
         while True:
             CONTACT_EMAIL = input("Inform a valid email address: ")
             if is_valid_email(CONTACT_EMAIL):
@@ -249,7 +251,7 @@ while True:
                 CONTACT_EMAIL = ""
                 break
 
-        # Checking if the favorite is set or not
+        # Checking if the favorite is set or not.
         while True:
             CONTACT_FAVORITE = input("Is it favorite? Yes/No: ")
             if len(CONTACT_FAVORITE) == 3:
